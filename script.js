@@ -2,33 +2,10 @@ let currentDate = new Date();
 let selectedDate = null;
 let selectedColor = '#0066cc';
 let events = {};
-let currentLang = 'pt';
+let currentLang = 'en';
 
 if ('Notification' in window) {
     Notification.requestPermission();
-}
-
-function toggleLanguage() {
-    currentLang = currentLang === 'pt' ? 'en' : 'pt';
-    document.getElementById('langToggle').textContent = `🌐 ${currentLang.toUpperCase()}`;
-    updateCalendar();
-    updateUIText();
-}
-
-function updateUIText() {
-    document.querySelector('#eventModal h3').textContent = translations[currentLang].newEvent;
-    document.getElementById('eventTitle').placeholder = translations[currentLang].title;
-    document.getElementById('eventLocation').placeholder = translations[currentLang].location;
-    document.getElementById('eventDescription').placeholder = translations[currentLang].description;
-    document.getElementById('saveEvent').textContent = translations[currentLang].save;
-    document.getElementById('cancelEvent').textContent = translations[currentLang].cancel;
-    document.getElementById('deleteEvent').textContent = translations[currentLang].delete;
-    document.getElementById('closeViewEvent').textContent = translations[currentLang].close;
-
-    const weekdays = document.querySelectorAll('.weekday');
-    weekdays.forEach((day, index) => {
-        day.textContent = translations[currentLang].weekdays[index];
-    });
 }
 
 function saveEvents() {
@@ -108,10 +85,28 @@ function updateCalendar() {
     }
 }
 
+function updateUIText() {
+    document.querySelector('#eventModal h3').textContent = translations[currentLang].newEvent;
+    document.getElementById('eventTitle').placeholder = translations[currentLang].title;
+    document.getElementById('eventLocation').placeholder = translations[currentLang].location;
+    document.getElementById('eventDescription').placeholder = translations[currentLang].description;
+    document.getElementById('saveEvent').textContent = translations[currentLang].save;
+    document.getElementById('cancelEvent').textContent = translations[currentLang].cancel;
+    document.getElementById('deleteEvent').textContent = translations[currentLang].delete;
+    document.getElementById('closeViewEvent').textContent = translations[currentLang].close;
+    
+    const weekdays = document.querySelectorAll('.weekday');
+    weekdays.forEach((day, index) => {
+        day.textContent = translations[currentLang].weekdays[index];
+    });
+}
+
 function showEventDetails(event, dateStr) {
     const viewModal = document.getElementById('viewEventModal');
     document.getElementById('viewEventTitle').textContent = event.title;
-    document.getElementById('viewEventDate').textContent = new Date(dateStr).toLocaleDateString(currentLang === 'pt' ? 'pt-BR' : 'en-US');
+    document.getElementById('viewEventDate').textContent = new Date(dateStr).toLocaleDateString(
+        currentLang === 'pt' ? 'pt-PT' : currentLang === 'es' ? 'es-ES' : 'en-GB'
+    );
     document.getElementById('viewEventTime').textContent = event.time;
     document.getElementById('viewEventLocation').textContent = event.location;
     document.getElementById('viewEventDescription').textContent = event.description;
@@ -136,6 +131,23 @@ document.querySelectorAll('.color-option').forEach(option => {
         option.classList.add('selected');
         selectedColor = option.dataset.color;
     });
+});
+
+document.getElementById('langToggle').addEventListener('click', () => {
+    document.getElementById('languageModal').style.display = 'block';
+});
+
+document.querySelectorAll('.lang-option').forEach(option => {
+    option.addEventListener('click', () => {
+        currentLang = option.dataset.lang;
+        updateCalendar();
+        updateUIText();
+        document.getElementById('languageModal').style.display = 'none';
+    });
+});
+
+document.getElementById('cancelLanguage').addEventListener('click', () => {
+    document.getElementById('languageModal').style.display = 'none';
 });
 
 const addButton = document.getElementById('addButton');
@@ -206,8 +218,6 @@ document.getElementById('nextMonth').addEventListener('click', () => {
     updateCalendar();
 });
 
-document.getElementById('langToggle').addEventListener('click', toggleLanguage);
-
 window.addEventListener('click', (event) => {
     if (event.target.classList.contains('modal')) {
         event.target.style.display = 'none';
@@ -217,4 +227,5 @@ window.addEventListener('click', (event) => {
 window.addEventListener('load', () => {
     loadEvents();
     updateUIText();
+    updateCalendar();
 });
