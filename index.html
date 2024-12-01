@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Calendar</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <button id="prevMonth">&lt;</button>
+                <h2 id="monthDisplay"></h2>
+                <button id="nextMonth">&gt;</button>
+                <button id="langToggle" class="lang-btn">🌐 EN</button>
+            </div>
+            <div class="weekdays-container">
+                <div class="weekday">SUN</div>
+                <div class="weekday">MON</div>
+                <div class="weekday">TUE</div>
+                <div class="weekday">WED</div>
+                <div class="weekday">THU</div>
+                <div class="weekday">FRI</div>
+                <div class="weekday">SAT</div>
+            </div>
+            <div id="daysContainer" class="days-grid"></div>
+        </div>
+
+        <button class="add-button" id="addButton">
+            <i class="fas fa-plus"></i>
+        </button>
+
+        <div class="modal" id="eventModal">
+            <div class="modal-content">
+                <h3>New Event</h3>
+                <input type="text" id="eventTitle" placeholder="Title">
+                <input type="date" id="eventDate">
+                <input type="time" id="eventTime">
+                <input type="text" id="eventLocation" placeholder="Location">
+                <textarea id="eventDescription" placeholder="Description"></textarea>
+                <div class="notification-settings">
+                    <label>
+                        <input type="checkbox" id="enableNotification">
+                        Notification
+                    </label>
+                    <select id="notificationTime">
+                        <option value="0">At time</option>
+                        <option value="5">5 min before</option>
+                        <option value="15">15 min before</option>
+                        <option value="30">30 min before</option>
+                        <option value="60">1h before</option>
+                    </select>
+                </div>
+                <div class="color-picker">
+                    <div class="color-options">
+                        <div class="color-option selected" data-color="#0066cc"></div>
+                        <div class="color-option" data-color="#ff4444"></div>
+                        <div class="color-option" data-color="#33cc33"></div>
+                        <div class="color-option" data-color="#ff9933"></div>
+                        <div class="color-option" data-color="#9933ff"></div>
+                    </div>
+                </div>
+                <div class="modal-buttons">
+                    <button id="saveEvent">Save</button>
+                    <button id="cancelEvent">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="viewEventModal">
+            <div class="modal-content">
+                <h3 id="viewEventTitle"></h3>
+                <p id="viewEventDate"></p>
+                <p id="viewEventTime"></p>
+                <p id="viewEventLocation"></p>
+                <p id="viewEventDescription"></p>
+                <div class="modal-buttons">
+                    <button id="deleteEvent">Delete</button>
+                    <button id="closeViewEvent">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="translations.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
