@@ -14,7 +14,6 @@
                 <button id="prevMonth">&lt;</button>
                 <h2 id="monthDisplay"></h2>
                 <button id="nextMonth">&gt;</button>
-                <button id="langToggle" class="lang-btn">🌐 EN</button>
             </div>
             <div class="weekdays-container">
                 <div class="weekday">SUN</div>
@@ -28,9 +27,89 @@
             <div id="daysContainer" class="days-grid"></div>
         </div>
 
-        <button class="add-button" id="addButton">
-            <i class="fas fa-plus"></i>
-        </button>
+        <div class="button-group">
+            <button class="action-button lang-button" id="langToggle">
+                <i class="fas fa-globe"></i>
+            </button>
+            <button class="action-button add-button" id="addButton">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+
+        <div class="modal" id="languageModal">
+            <div class="modal-content">
+                <h3>Select Language</h3>
+                <div class="language-options">
+                    <!-- Main Languages -->
+                    <button class="lang-option" data-lang="en">
+                        <img src="https://flagcdn.com/w40/gb.png" alt="English">
+                        English
+                    </button>
+                    <button class="lang-option" data-lang="pt">
+                        <img src="portugalflag.png" alt="Português">
+                        Portuguez
+                    </button>
+                    <button class="lang-option" data-lang="es">
+                        <img src="https://flagcdn.com/w40/es.png" alt="Español">
+                        Español
+                    </button>
+                    <button class="lang-option" data-lang="fr">
+                        <img src="https://flagcdn.com/w40/fr.png" alt="Français">
+                        Français
+                    </button>
+                    <button class="lang-option" data-lang="de">
+                        <img src="https://flagcdn.com/w40/de.png" alt="Deutsch">
+                        Deutsch
+                    </button>
+        
+                    <!-- Asian Languages -->
+                    <button class="lang-option" data-lang="zh">
+                        <img src="https://flagcdn.com/w40/cn.png" alt="中文">
+                        中文
+                    </button>
+                    <button class="lang-option" data-lang="ja">
+                        <img src="https://flagcdn.com/w40/jp.png" alt="日本語">
+                        日本語
+                    </button>
+                    <button class="lang-option" data-lang="ko">
+                        <img src="https://flagcdn.com/w40/kr.png" alt="한국어">
+                        한국어
+                    </button>
+        
+                    <!-- European Languages -->
+                    <button class="lang-option" data-lang="ru">
+                        <img src="https://flagcdn.com/w40/ru.png" alt="Русский">
+                        Русский
+                    </button>
+                    <button class="lang-option" data-lang="hu">
+                        <img src="https://flagcdn.com/w40/hu.png" alt="Magyar">
+                        Magyar
+                    </button>
+                    <button class="lang-option" data-lang="he">
+                        <img src="https://flagcdn.com/w40/il.png" alt="עברית">
+                        עברית
+                    </button>
+                    <button class="lang-option" data-lang="sl">
+                        <img src="https://flagcdn.com/w40/si.png" alt="Slovenščina">
+                        Slovenščina
+                    </button>
+                    <button class="lang-option" data-lang="da">
+                        <img src="https://flagcdn.com/w40/dk.png" alt="Dansk">
+                        Dansk
+                    </button>
+        
+                    <!-- Extra -->
+                    <div class="language-divider">Extra</div>
+                    <button class="lang-option" data-lang="eo">
+                        <img src="esperantoflag.jpg" alt="Esperanto">
+                        Esperanto
+                    </button>
+                </div>
+                <div class="modal-buttons">
+                    <button id="cancelLanguage">Close</button>
+                </div>
+            </div>
+        </div>        
 
         <div class="modal" id="eventModal">
             <div class="modal-content">
