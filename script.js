@@ -17,6 +17,7 @@ function loadEvents() {
     if (savedEvents) {
         events = JSON.parse(savedEvents);
         updateCalendar();
+        scheduleAllNotifications();
     }
 }
 
@@ -24,7 +25,6 @@ function scheduleNotification(event, dateTime, notificationTime) {
     if (Notification.permission === "granted") {
         const notificationDateTime = new Date(dateTime.getTime() - (notificationTime * 60000));
         const now = new Date();
-        
         if (notificationDateTime > now) {
             setTimeout(() => {
                 new Notification(event.title, {
@@ -36,51 +36,59 @@ function scheduleNotification(event, dateTime, notificationTime) {
     }
 }
 
+function scheduleAllNotifications() {
+    for (const dateStr in events) {
+        const event = events[dateStr];
+        if (event.notification) {
+            const [year, month, day] = dateStr.split('-');
+            const [hours, minutes] = event.time.split(':');
+            const eventDateTime = new Date(year, month - 1, day, hours, minutes);
+            scheduleNotification(event, eventDateTime, event.notificationTime);
+        }
+    }
+}
+
 function updateCalendar() {
     const monthDisplay = document.getElementById('monthDisplay');
     const daysContainer = document.getElementById('daysContainer');
-    
     const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
     const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-    
+
     monthDisplay.textContent = `${translations[currentLang].monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
-    
+
     daysContainer.innerHTML = '';
-    
+
     for (let i = 0; i < firstDay.getDay(); i++) {
         const emptyDay = document.createElement('div');
         emptyDay.className = 'day';
         daysContainer.appendChild(emptyDay);
     }
-    
+
     for (let day = 1; day <= lastDay.getDate(); day++) {
         const dayElement = document.createElement('div');
         dayElement.className = 'day';
         dayElement.textContent = day;
-        
+
         const dateStr = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-        
+
         if (events[dateStr]) {
             dayElement.classList.add('has-event');
             dayElement.style.setProperty('--event-color', events[dateStr].color);
-            
             dayElement.addEventListener('click', () => {
                 showEventDetails(events[dateStr], dateStr);
             });
         }
-        
-        if (day === new Date().getDate() && 
-            currentDate.getMonth() === new Date().getMonth() && 
-            currentDate.getFullYear() === new Date().getFullYear()) {
+
+        if (day === new Date().getDate() && currentDate.getMonth() === new Date().getMonth() && currentDate.getFullYear() === new Date().getFullYear()) {
             dayElement.classList.add('today');
         }
-        
+
         dayElement.addEventListener('click', () => {
             document.querySelectorAll('.day').forEach(d => d.classList.remove('selected'));
             dayElement.classList.add('selected');
             selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
         });
-        
+
         daysContainer.appendChild(dayElement);
     }
 }
@@ -94,7 +102,7 @@ function updateUIText() {
     document.getElementById('cancelEvent').textContent = translations[currentLang].cancel;
     document.getElementById('deleteEvent').textContent = translations[currentLang].delete;
     document.getElementById('closeViewEvent').textContent = translations[currentLang].close;
-    
+
     const weekdays = document.querySelectorAll('.weekday');
     weekdays.forEach((day, index) => {
         day.textContent = translations[currentLang].weekdays[index];
@@ -110,18 +118,18 @@ function showEventDetails(event, dateStr) {
     document.getElementById('viewEventTime').textContent = event.time;
     document.getElementById('viewEventLocation').textContent = event.location;
     document.getElementById('viewEventDescription').textContent = event.description;
-    
+
     document.getElementById('deleteEvent').onclick = () => {
         delete events[dateStr];
         saveEvents();
         updateCalendar();
         viewModal.style.display = 'none';
     };
-    
+
     document.getElementById('closeViewEvent').onclick = () => {
         viewModal.style.display = 'none';
     };
-    
+
     viewModal.style.display = 'block';
 }
 
@@ -174,37 +182,21 @@ saveEvent.addEventListener('click', () => {
     const description = document.getElementById('eventDescription').value;
     const enableNotification = document.getElementById('enableNotification').checked;
     const notificationTime = parseInt(document.getElementById('notificationTime').value);
-    
+
     if (title && date) {
-        const eventId = Date.now().toString();
-        const eventData = {
-            id: eventId,
-            title,
-            time,
-            location,
-            description,
-            color: selectedColor,
-            notification: enableNotification ? notificationTime : null
-        };
+        const dateStr = date;
+        events[dateStr] = { title, time, location, description, color: selectedColor, notification: enableNotification, notificationTime };
         
-        events[date] = eventData;
-        
-        if (enableNotification && time) {
+        if (enableNotification) {
+            const [year, month, day] = dateStr.split('-');
             const [hours, minutes] = time.split(':');
-            const eventDateTime = new Date(date);
-            eventDateTime.setHours(parseInt(hours), parseInt(minutes));
-            scheduleNotification(eventData, eventDateTime, notificationTime);
+            const eventDateTime = new Date(year, month - 1, day, hours, minutes);
+            scheduleNotification(events[dateStr], eventDateTime, notificationTime);
         }
         
         saveEvents();
         updateCalendar();
         modal.style.display = 'none';
-        
-        document.getElementById('eventTitle').value = '';
-        document.getElementById('eventTime').value = '';
-        document.getElementById('eventLocation').value = '';
-        document.getElementById('eventDescription').value = '';
-        document.getElementById('enableNotification').checked = false;
     }
 });
 
@@ -218,14 +210,6 @@ document.getElementById('nextMonth').addEventListener('click', () => {
     updateCalendar();
 });
 
-window.addEventListener('click', (event) => {
-    if (event.target.classList.contains('modal')) {
-        event.target.style.display = 'none';
-    }
-});
-
-window.addEventListener('load', () => {
-    loadEvents();
-    updateUIText();
-    updateCalendar();
-});
+loadEvents();
+updateCalendar();
+updateUIText();
