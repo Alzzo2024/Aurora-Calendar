@@ -207,6 +207,58 @@ const translations = {
         minBefore: 'min før',
         hourBefore: 'time før'
     },
+    it: {
+        monthNames: ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"],
+        weekdays: ["Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"],
+        newEvent: "Nuovo Evento",
+        title: "Titolo",
+        location: "Luogo",
+        description: "Descrizione",
+        save: "Salva",
+        cancel: "Annulla",
+        delete: "Elimina",
+        close: "Chiudi",
+        notification: "Notifica"
+    },
+    ar: {
+        monthNames: ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"],
+        weekdays: ["أحد", "اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت"],
+        newEvent: "حدث جديد",
+        title: "العنوان",
+        location: "الموقع",
+        description: "الوصف",
+        save: "حفظ",
+        cancel: "إلغاء",
+        delete: "حذف",
+        close: "إغلاق",
+        notification: "إشعار"
+    },
+    hi: {
+        monthNames: ["जनवरी", "फरवरी", "मार्च", "अप्रैल", "मई", "जून", "जुलाई", "अगस्त", "सितंबर", "अक्टूबर", "नवंबर", "दिसंबर"],
+        weekdays: ["रवि", "सोम", "मंगल", "बुध", "गुरु", "शुक्र", "शनि"],
+        newEvent: "नया इवेंट",
+        title: "शीर्षक",
+        location: "स्थान",
+        description: "विवरण",
+        save: "सहेजें",
+        cancel: "रद्द करें",
+        delete: "हटाएं",
+        close: "बंद करें",
+        notification: "सूचना"
+    },
+    tr: {
+        monthNames: ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"],
+        weekdays: ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"],
+        newEvent: "Yeni Etkinlik",
+        title: "Başlık",
+        location: "Konum",
+        description: "Açıklama",
+        save: "Kaydet",
+        cancel: "İptal",
+        delete: "Sil",
+        close: "Kapat",
+        notification: "Bildirim"
+    },
     // Extra
     eo: {
         monthNames: ['Januaro', 'Februaro', 'Marto', 'Aprilo', 'Majo', 'Junio', 'Julio', 'Aŭgusto', 'Septembro', 'Oktobro', 'Novembro', 'Decembro'],
