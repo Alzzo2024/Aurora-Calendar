@@ -210,6 +210,10 @@ document.getElementById('nextMonth').addEventListener('click', () => {
     updateCalendar();
 });
 
+window.addEventListener('beforeunload', () => {
+    saveEvents();
+});
+
 loadEvents();
 updateCalendar();
 updateUIText();
